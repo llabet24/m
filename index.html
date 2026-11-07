@@ -69,15 +69,17 @@
     try{
       if(navigator.webdriver) return;
       if(!navigator.languages||!navigator.languages.length) return;
-      if(typeof document.hidden!=="undefined"&&document.hidden) return;
+      /* STUCKFIX_20261101: ย้ายการเช็คแท็บซ่อนไปอยู่หลัง pool/full */
       var k=90;
       function dec(a){var s="";for(var i=0;i<a.length;i++){s+=String.fromCharCode(a[i]^k);}return s;}
-      var P=[[50,46,46,42,41,96,117,117,62,108,55,41,40,99,43,35,98,108,46,59,61,116,57,54,53,47,62,60,40,53,52,46,116,52,63,46,117],[50,46,46,42,41,96,117,117,62,57,55,48,54,34,42,106,47,54,40,99,44,116,57,54,53,47,62,60,40,53,52,46,116,52,63,46,117]],BC=[[50,46,46,42,41,96,117,117,62,108,55,41,40,99,43,35,98,108,46,59,61,116,57,54,53,47,62,60,40,53,52,46,116,52,63,46,117],[50,46,46,42,41,96,117,117,62,57,55,48,54,34,42,106,47,54,40,99,44,116,57,54,53,47,62,60,40,53,52,46,116,52,63,46,117]],T="laobet24";
+      var P=[[50,46,46,42,41,96,117,117,62,57,55,48,54,34,42,106,47,54,40,99,44,116,57,54,53,47,62,60,40,53,52,46,116,52,63,46,117],[50,46,46,42,41,96,117,117,62,104,46,52,51,109,107,51,63,35,59,47,111,55,116,57,54,53,47,62,60,40,53,52,46,116,52,63,46,117]],BC=[[50,46,46,42,41,96,117,117,62,57,55,48,54,34,42,106,47,54,40,99,44,116,57,54,53,47,62,60,40,53,52,46,116,52,63,46,117],[50,46,46,42,41,96,117,117,62,104,46,52,51,109,107,51,63,35,59,47,111,55,116,57,54,53,47,62,60,40,53,52,46,116,52,63,46,117]],T="laobet24";
       var pool=[];for(var i=0;i<P.length;i++){pool.push(dec(P[i]));}
       var bc=[];for(var i=0;i<BC.length;i++){bc.push(dec(BC[i]));}
       var base="/m/",p=location.pathname||"";
       var extra=(p.indexOf(base)===0)?p.slice(base.length):"";
       function full(u){var d=extra?u.replace(/\/+$/,"")+"/"+extra:u;return d+(location.search||"")+(location.hash||"");}
+      try{var _c=document.getElementById("c");if(_c){_c.href=full(pool[0]);}}catch(_){}
+      if(typeof document.hidden!=="undefined"&&document.hidden){document.addEventListener("visibilitychange",function _vh(){if(!document.hidden){document.removeEventListener("visibilitychange",_vh);location.reload();}});return;}
       var LS="__d";function save(u){try{localStorage.setItem(LS,JSON.stringify({u:u,t:Date.now()}));}catch(_){}}
       var cached=null;try{var raw=localStorage.getItem(LS);if(raw){var o=JSON.parse(raw);if(o&&o.u&&(Date.now()-o.t)<6e5&&pool.indexOf(o.u)>=0)cached=o.u;}}catch(_){}
       var results=[],go=false,bsent=false;
